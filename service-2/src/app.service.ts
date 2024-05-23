@@ -19,10 +19,7 @@ export class AppService {
   }
 
   handleDataSent(data: Buffer): string {
-    const dataGot = JSON.parse(
-      String.fromCharCode.apply(null, Buffer.from(data)),
-    );
-    return dataGot;
+    return JSON.parse(String.fromCharCode.apply(null, Buffer.from(data)));
   }
 
   signData(data: Buffer): Buffer {
@@ -33,8 +30,6 @@ export class AppService {
     const sign = crypto.createSign('SHA256');
     sign.update(data);
     sign.end();
-    const signature = sign.sign(privateKey);
-
-    return signature;
+    return sign.sign(privateKey);
   }
 }
