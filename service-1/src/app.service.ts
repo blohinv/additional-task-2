@@ -3,23 +3,22 @@ import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import * as crypto from 'crypto';
 import { Response } from 'express';
 import { Observable } from 'rxjs';
+import { SERVICE_NAME } from './di-tokens.constant';
 
 @Injectable()
 export class AppService {
   constructor(
-    @Inject('APP_SERVICE') private readonly rabbitClient: ClientProxy,
+    @Inject(SERVICE_NAME) private readonly rabbitClient: ClientProxy,
   ) {}
 
-  signData() {
+  signData(): Observable<string> {
     const data = this.generateDataArray();
     const dataSent = JSON.stringify(Array.from(data));
-    const result = this.rabbitClient.send({ msg: 'data-sent' }, dataSent);
-    return result;
+    return this.rabbitClient.send({ msg: 'data-sent' }, dataSent);
   }
 
   generateDataArray(): Buffer {
-    const buffer = Buffer.from(this.generateRandomHex(25600));
-    return buffer;
+    return Buffer.from(this.generateRandomHex(25600));
   }
 
   generateRandomHex(size: number): any {

@@ -9,7 +9,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('sign-data')
-  signData() {
+  signData(): Observable<string> {
     return this.appService.signData();
   }
 

@@ -2,6 +2,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { SERVICE_NAME } from './di-tokens.constant';
+import { QUEUE, HOST } from 'config';
 
 @Module({
   controllers: [AppController],
@@ -9,11 +11,11 @@ import { AppController } from './app.controller';
   imports: [
     ClientsModule.register([
       {
-        name: 'SIGN_SERVICE',
+        name: SERVICE_NAME,
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'task-2-queue',
+          urls: [HOST],
+          queue: QUEUE,
         },
       },
     ]),

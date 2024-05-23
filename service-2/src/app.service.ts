@@ -3,11 +3,12 @@ import { ClientProxy } from '@nestjs/microservices';
 import * as crypto from 'crypto';
 import { Buffer } from 'buffer';
 import { Observable } from 'rxjs';
+import { SERVICE_NAME } from './di-tokens.constant';
 
 @Injectable()
 export class AppService {
   constructor(
-    @Inject('SIGN_SERVICE') private readonly rabbitClient: ClientProxy,
+    @Inject(SERVICE_NAME) private readonly rabbitClient: ClientProxy,
   ) {}
 
   sendDataBack(data: any): Observable<string> {
